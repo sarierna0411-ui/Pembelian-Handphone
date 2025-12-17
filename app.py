@@ -1,29 +1,12 @@
-import streamlit as st
-import pandas as pd
+st.subheader("📈 Dashboard Ringkas")
 
-st.title("🤖 AI Agent Pembelian Handphone")
+col1, col2, col3 = st.columns(3)
 
-# Baca data
-data = pd.read_csv("data_hp.csv")
+with col1:
+    st.metric("Total Handphone", len(data))
 
-st.subheader("📊 Data Handphone")
-st.dataframe(data)
+with col2:
+    st.metric("Harga Termurah", f"Rp {data['harga'].min():,}")
 
-st.subheader("🔍 Cari Rekomendasi")
-
-# Input pengguna (GANTI input() → st.)
-budget = st.number_input(
-    "Masukkan budget (Rp)",
-    min_value=1000000,
-    step=500000
-)
-
-# Tombol proses
-if st.button("Cari Rekomendasi"):
-    rekomendasi = data[data["harga"] <= budget]
-
-    if rekomendasi.empty:
-        st.warning("❌ Tidak ada handphone sesuai budget.")
-    else:
-        st.success("✅ Rekomendasi Handphone:")
-        st.dataframe(rekomendasi)
+with col3:
+    st.metric("Harga Termahal", f"Rp {data['harga'].max():,}")
