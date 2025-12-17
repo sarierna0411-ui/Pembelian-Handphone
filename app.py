@@ -1,19 +1,29 @@
+import streamlit as st
 import pandas as pd
 
-print("=== AI Agent Pembelian Handphone ===")
+st.title("🤖 AI Agent Pembelian Handphone")
 
 # Baca data
 data = pd.read_csv("data_hp.csv")
 
-# Input dari pengguna
-budget = int(input("Masukkan budget (Rp): "))
+st.subheader("📊 Data Handphone")
+st.dataframe(data)
 
-# Logika AI Agent
-rekomendasi = data[data["harga"] <= budget]
+st.subheader("🔍 Cari Rekomendasi")
 
-# Hasil
-print("\nRekomendasi Handphone:")
-if rekomendasi.empty:
-    print("Tidak ada handphone sesuai budget.")
-else:
-    print(rekomendasi)
+# Input pengguna (GANTI input() → st.)
+budget = st.number_input(
+    "Masukkan budget (Rp)",
+    min_value=1000000,
+    step=500000
+)
+
+# Tombol proses
+if st.button("Cari Rekomendasi"):
+    rekomendasi = data[data["harga"] <= budget]
+
+    if rekomendasi.empty:
+        st.warning("❌ Tidak ada handphone sesuai budget.")
+    else:
+        st.success("✅ Rekomendasi Handphone:")
+        st.dataframe(rekomendasi)
